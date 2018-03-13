@@ -91,7 +91,7 @@ def update_migration_scatter(countries):
                             name=c)
                  for c in sorted(countries)],
         'layout': go.Layout(title='Net Migration Rate per 1,000 Inhabitants - 2017 (CIA World Factbook)',
-                            xaxis={'showticklabels': False, 'zeroline': False},
+                            xaxis={'showticklabels': False, 'zeroline': False, 'title': 'Country'},
                             yaxis={'title': 'Net Migrants per 1,000'},
                             font={'family': 'Palatino'},
                             titlefont={'size': 30},
