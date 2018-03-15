@@ -7,6 +7,7 @@ import plotly.graph_objs as go
 
 migration_df = pd.read_csv('data/country_data_master.csv', 
                            usecols=lambda cols: cols in ['country', 'lat', 'lon', 'migration'])
+migration_df = migration_df[migration_df['migration'].notna()]
 
 app = dash.Dash()
 server = app.server
@@ -29,12 +30,15 @@ app.layout = html.Div([
                                              hoverinfo='text',
                                              text=migration_df['country'].astype(str) + '<br>' + 'Net migration: ' +
                                                   migration_df['migration'].astype(str),
-                                             marker={'size': [7 if abs(x * 4) < 7 else abs(x * 4) for x in 
-                                                              migration_df['migration']],
+                                             marker={'size': 22,
                                                      'color': migration_df['migration'],
-                                                     'colorscale': 'Bluered',
+                                                     'line': {'color': '#000000', 'width': 0.2},
+                                                     'colorscale': [[0, 'rgba(214, 39, 40, 0.85)'], 
+                                                                    [0.618, 'rgba(255, 255, 255, 0.85)'],  
+                                                                    [1, 'rgba(6,54,21, 0.85)']],
+                                                     'colorbar': {'outlinewidth': 0},
                                                      'showscale': True,
-                                                     'reversescale': True},
+                                                     },
                                              )],
 
                      'layout': go.Layout(title='Net Migration Rate per 1,000 Inhabitants - 2017 (CIA World Factbook)',
