@@ -4,6 +4,10 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.graph_objs as go
+import logging
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s==%(funcName)s==%(message)s')
 
 migration_df = pd.read_csv('data/country_data_master.csv', 
                            usecols=lambda cols: cols in ['country', 'lat', 'lon', 'migration'])
@@ -76,6 +80,7 @@ app.layout = html.Div([
 @app.callback(Output('migration_scatter', 'figure'),
              [Input('country_dropdown', 'value')])
 def update_migration_scatter(countries):
+    logging.info(msg=locals())
     df = migration_df[migration_df['country'].isin(countries)]
 
     return {
