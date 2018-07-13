@@ -2,15 +2,17 @@ import pandas as pd
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
 import plotly.graph_objs as go
+
+from dash.dependencies import Input, Output
 import logging
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s==%(funcName)s==%(message)s')
 
-migration_df = pd.read_csv('data/country_data_master.csv', 
-                           usecols=lambda cols: cols in ['country', 'lat', 'lon', 'migration'])
+migration_df = pd.read_csv('data/country_data_master.csv',
+                           usecols=lambda cols: cols in
+                           ['country', 'lat', 'lon', 'migration'])
 migration_df = migration_df[migration_df['migration'].notna()]
 
 app = dash.Dash()
@@ -20,47 +22,49 @@ app.layout = html.Div([
     dcc.Graph(id='migration_scatter',
               config={'displayModeBar': False}),
     html.Div([
-    dcc.Dropdown(id='country_dropdown',
-                 value=tuple(),
-                 multi=True,
-                 options=[{'label': country, 'value': country}
-                          for country in migration_df[migration_df['migration'].notna()]['country']])        
+        dcc.Dropdown(id='country_dropdown',
+                     value=tuple(),
+                     multi=True,
+                     options=[{'label': country, 'value': country}
+                              for country in
+                              migration_df[migration_df['migration'].notna()]['country']])
     ], style={'width': '50%', 'margin-left': '25%'}),
-    dcc.Graph(id='migration_fig', 
+    dcc.Graph(id='migration_fig',
               config={'displayModeBar': False},
               figure={'data': [go.Scattergeo(lon=migration_df['lon'],
                                              lat=migration_df['lat'],
                                              mode='markers',
                                              hoverinfo='text',
-                                             text=migration_df['country'].astype(str) + '<br>' + 'Net migration: ' +
-                                                  migration_df['migration'].astype(str),
+                                             text=migration_df['country'].astype(str)
+                                                  + '<br>' + 'Net migration: '
+                                                  + migration_df['migration'].astype(str),
                                              marker={'size': 22,
                                                      'color': migration_df['migration'],
                                                      'line': {'color': '#000000', 'width': 0.2},
-                                                     'colorscale': [[0, 'rgba(214, 39, 40, 0.85)'], 
-                                                                    [0.618, 'rgba(255, 255, 255, 0.85)'],  
+                                                     'colorscale': [[0, 'rgba(214, 39, 40, 0.85)'],
+                                                                    [0.618, 'rgba(255, 255, 255, 0.85)'],
                                                                     [1, 'rgba(6,54,21, 0.85)']],
                                                      'colorbar': {'outlinewidth': 0},
                                                      'showscale': True,
                                                      },
                                              )],
 
-                     'layout': go.Layout(title='Net Migration Rate per 1,000 Inhabitants - 2017 (CIA World Factbook)',
-                                         font={'family': 'Palatino'},
-                                         paper_bgcolor='#eeeeee',
-                                         width=1420,
-                                         height=750,
-                                         geo={'showland': True, 'landcolor': '#eeeeee',
-                                              'countrycolor': '#cccccc', 
-                                              'showcountries': True,
-                                              'oceancolor': '#eeeeee',
-                                              'showocean': True,
-                                              'showcoastlines': True, 
-                                              'showframe': False,
-                                              'coastlinecolor': '#cccccc',
-                                              },
-)}),
-    html.A('@eliasdabbas', href='https://www.twitter.com/eliasdabbas'), 
+                      'layout': go.Layout(title='Net Migration Rate per 1,000 Inhabitants - 2017 (CIA World Factbook)',
+                                          font={'family': 'Palatino'},
+                                          paper_bgcolor='#eeeeee',
+                                          width=1420,
+                                          height=750,
+                                          geo={'showland': True, 'landcolor': '#eeeeee',
+                                               'countrycolor': '#cccccc',
+                                               'showcountries': True,
+                                               'oceancolor': '#eeeeee',
+                                               'showocean': True,
+                                               'showcoastlines': True,
+                                               'showframe': False,
+                                               'coastlinecolor': '#cccccc',
+                                               })
+                      }),
+    html.A('@eliasdabbas', href='https://www.twitter.com/eliasdabbas'),
     html.P(),
     html.Content('Data: CIA World Factobook  '),
     html.A('Net Migration Rate', href='https://www.cia.gov/library/publications/the-world-factbook/fields/2112.html'),
@@ -78,7 +82,7 @@ app.layout = html.Div([
 
 
 @app.callback(Output('migration_scatter', 'figure'),
-             [Input('country_dropdown', 'value')])
+              [Input('country_dropdown', 'value')])
 def update_migration_scatter(countries):
     logging.info(msg=locals())
     df = migration_df[migration_df['country'].isin(countries)]
@@ -95,7 +99,9 @@ def update_migration_scatter(countries):
                             y=df[df['country'] == c]['migration'],
                             mode='markers',
                             marker={'size': 15},
-                            hovertext={'font': {'size': 30}},
+                            hoverinfo='text',
+                            text=df[df['country'] == c]['country'].astype(str)
+                                 + ': ' + df[df['country'] == c]['migration'].astype(str),
                             hoverlabel={'font': {'size': 20}},
                             name=c)
                  for c in sorted(countries)],
@@ -104,9 +110,11 @@ def update_migration_scatter(countries):
                             yaxis={'title': 'Net Migrants per 1,000'},
                             font={'family': 'Palatino'},
                             titlefont={'size': 30},
+                            hovermode='x',
                             paper_bgcolor='#eeeeee',
                             plot_bgcolor='#eeeeee')
     }
+
 
 if __name__ == '__main__':
     app.run_server()
