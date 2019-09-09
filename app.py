@@ -52,7 +52,7 @@ app.layout = html.Div([
                       'layout': go.Layout(title='Net Migration Rate per 1,000 Inhabitants - 2017 (CIA World Factbook)',
                                           font={'family': 'Palatino'},
                                           paper_bgcolor='#eeeeee',
-                                          width=1420,
+                                          # width=1420,
                                           height=750,
                                           geo={'showland': True, 'landcolor': '#eeeeee',
                                                'countrycolor': '#cccccc',
@@ -64,20 +64,20 @@ app.layout = html.Div([
                                                'coastlinecolor': '#cccccc',
                                                })
                       }),
-    html.A('@eliasdabbas', href='https://www.twitter.com/eliasdabbas'),
-    html.P(),
-    html.Content('Data: CIA World Factobook  '),
-    html.A('Net Migration Rate', href='https://www.cia.gov/library/publications/the-world-factbook/fields/2112.html'),
-    html.Br(),
-    html.Content('  Code: '),
-    html.A('github.com/eliasdabbas/migration_dashboard', href='https://github.com/eliasdabbas/migration_dashboard'), html.Br(), html.Br(),
-    html.Content('This entry includes the figure for the difference between the number of persons entering and leaving a '
-                 'country during the year per 1,000 persons (based on midyear population). An excess of persons entering '
-                 'the country is referred to as net immigration (e.g., 3.56 migrants/1,000 population); an excess of persons '
-                 'leaving the country as net emigration (e.g., -9.26 migrants/1,000 population). The net migration rate '
-                 'indicates the contribution of migration to the overall level of population change. The net migration rate '
-                 'does not distinguish between economic migrants, refugees, and other types of migrants nor does it distinguish '
-                 'between lawful migrants and undocumented migrants.')
+    # html.A('@eliasdabbas', href='https://www.twitter.com/eliasdabbas'),
+    # html.P(),
+    # html.Content('Data: CIA World Factobook  '),
+    # html.A('Net Migration Rate', href='https://www.cia.gov/library/publications/the-world-factbook/fields/2112.html'),
+    # html.Br(),
+    # html.Content('  Code: '),
+    # html.A('github.com/eliasdabbas/migration_dashboard', href='https://github.com/eliasdabbas/migration_dashboard'), html.Br(), html.Br(),
+    # html.Content('This entry includes the figure for the difference between the number of persons entering and leaving a '
+    #              'country during the year per 1,000 persons (based on midyear population). An excess of persons entering '
+    #              'the country is referred to as net immigration (e.g., 3.56 migrants/1,000 population); an excess of persons '
+    #              'leaving the country as net emigration (e.g., -9.26 migrants/1,000 population). The net migration rate '
+    #              'indicates the contribution of migration to the overall level of population change. The net migration rate '
+    #              'does not distinguish between economic migrants, refugees, and other types of migrants nor does it distinguish '
+    #              'between lawful migrants and undocumented migrants.')
 ], style={'background-color': '#eeeeee'})
 
 
